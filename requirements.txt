@@ -1,6 +1,7 @@
 fastapi
 uvicorn
-sentence-transformers
+# sentence-transformers
+fastembed
 faiss-cpu
 groq
 python-dotenv

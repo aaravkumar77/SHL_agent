@@ -3,7 +3,8 @@ import pickle
 import re
 import numpy as np
 import faiss
-from sentence_transformers import SentenceTransformer
+# from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List, Optional
@@ -22,7 +23,9 @@ print("Loading search index...")
 index = faiss.read_index("catalog_index.faiss")
 with open("catalog_items.pkl", "rb") as f:
     catalog = pickle.load(f)
-model = SentenceTransformer("all-MiniLM-L6-v2")
+# model = SentenceTransformer("all-MiniLM-L6-v2")
+model = TextEmbedding("BAAI/bge-small-en-v1.5")
+
 
 # Initialize Groq client
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))

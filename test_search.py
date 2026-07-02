@@ -12,7 +12,8 @@ model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def search(query, top_k=5):
     # Convert query to numbers (same way we did for catalog)
-    query_embedding = model.encode([query])
+    # query_embedding = model.encode([query])
+    query_embedding = np.array(list(model.embed([query]))).astype('float32')
     
     # Search FAISS for closest matches
     distances, indices = index.search(np.array(query_embedding), top_k)
