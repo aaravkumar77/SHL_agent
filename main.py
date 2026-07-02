@@ -55,7 +55,8 @@ class ChatResponse(BaseModel):
 
 def search_catalog(query: str, top_k: int = 10):
     """Search catalog for relevant assessments"""
-    query_embedding = model.encode([query])
+    # query_embedding = model.encode([query])
+    query_embedding = np.array(list(model.embed([query]))).astype('float32')
     distances, indices = index.search(np.array(query_embedding), top_k)
     
     results = []

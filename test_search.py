@@ -1,22 +1,21 @@
 import pickle
 import faiss
 import numpy as np
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 
 # Load everything we built
 print("Loading search index...")
 index = faiss.read_index("catalog_index.faiss")
 with open("catalog_items.pkl", "rb") as f:
     catalog = pickle.load(f)
-model = SentenceTransformer("all-MiniLM-L6-v2")
+model = TextEmbedding("BAAI/bge-small-en-v1.5")
 
 def search(query, top_k=5):
-    # Convert query to numbers (same way we did for catalog)
-    # query_embedding = model.encode([query])
+    # Convert query to numbers
     query_embedding = np.array(list(model.embed([query]))).astype('float32')
     
     # Search FAISS for closest matches
-    distances, indices = index.search(np.array(query_embedding), top_k)
+    distances, indices = index.search(query_embedding, top_k)
     
     # Return the matching tests
     results = []
